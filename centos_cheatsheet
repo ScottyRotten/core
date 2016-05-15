@@ -1,0 +1,8 @@
+# update packages
+yum update
+
+# search packages
+yum list {package-name}
+yum list {regex}
+yum list httpd
+yum list perl*
