@@ -1,0 +1,61 @@
+# Introduction to Programming
+
+### Data Types
+
+Character: char or a or b or even %
+
+Integer: int or 345
+- There are bounds to integers. If maxed it will roll to the lowest/highest value
+
+Decimal: double or 10.5
+- Required for decimals or fractions, especially division
+
+String: "hello" or "1234"
+
+Boolean: true or false
+
+Arrays: (1, 3, 4, 2, 6)
+- Lists of things
+
+### Loops
+
+While Boolean - while true, do x
+
+Do While - do the items once to initialize the while loop
+
+### Containment
+
+{} - Surround a group of statements
+
+() - contents belong to a method or function
+
+[] - Arrays
+
+### Comments
+
+- '#' for python and bash
+- // for java or /****/ for block in java
+- Rem for batch
+- etc
+
+### Output
+
+Powershell - write host
+
+Java - system.out.print
+
+python - print
+
+c - cout>> or printf
+
+Batch - echo
+
+Bash - echo
+
+### User input
+
+Java: scanner libary
+
+Python: raw_input()
+
+Powershell: Read-Host "String"
