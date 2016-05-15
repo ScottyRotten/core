@@ -1,8 +1,20 @@
 # update packages
 yum update
 
+# display available packages
+yum list all
+
 # search packages
-yum list {package-name}
-yum list {regex}
+yum list <package-name>
+yum list <regex>
 yum list httpd
 yum list perl*
+
+# install packages
+yum install <package-name-1> <package-name-2>
+yum install <package>
+
+# remove / uninstall packages
+yum remove <package-name-1> <package-name-2>
+yum remove httpd
+
