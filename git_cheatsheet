@@ -7,3 +7,5 @@ git add . ;Stages changes Adds all changes you made or . can be replaced with a 
 git commit -m "your comment here" ;commits changes that were added to repository (Local Copy)
 
 git push ;Uploads most recent changes to github server
+
+git rm ;remove git files, follow with commit and push
