@@ -1,4 +1,4 @@
-#Ubuntu Setup Notes
+#Kali Setup Notes
 
 #change theme in solarized
 apt-get install terminator
