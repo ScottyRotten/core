@@ -11,8 +11,8 @@ First Time: Link to the original source
 1) List remotes: git remote -v
 2) Add original project to remotes: git remote add <name> <copiedURL>
 
-git fetch <nameOfRemote>
-git merge <nameOfRemote>\<branch> (master)
+* git fetch <nameOfRemote>
+* git merge <nameOfRemote>\<branch> (master)
 
 
 ## Workflow
