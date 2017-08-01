@@ -15,7 +15,7 @@ Then:
 
 * git fetch <nameOfRemote>
 * git merge <nameOfRemote>\<branch> (master)
-
+* git push
 
 ## Workflow
 
